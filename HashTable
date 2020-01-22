@@ -1,0 +1,61 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+namespace HashTable
+{
+ public class HashTable
+    {
+        public MyLinkedList[] values;
+        public int currentsize;
+        public int size;
+        
+        public HashTable(int sizeinput)
+        {
+            currentsize = 0;
+            size = sizeinput;
+            values = new MyLinkedList[size];
+
+            
+        }
+        public void AddItem(string item)
+        {
+            int index = HashFunction(item);
+            if (values[index] == null)
+            {
+                values[index] = new MyLinkedList();
+                values[index].append(item);
+            }
+            else { values[index].append(item); }
+        }
+        public int HashFunction(string stringinput)
+        {
+            int charvalue = 0;
+            char[] characters = stringinput.ToCharArray();
+            foreach(var chars in characters)
+            {
+                charvalue += (int)Convert.ToChar(chars);
+            }
+            return charvalue % size;
+        }
+        public bool SearchFunction(string item)
+        {
+            int index = HashFunction(item);
+            return values[index].search(item);
+        }
+        public void Remove(string item)
+        {
+            int index = HashFunction(item);
+            values[index].remove(item);
+            currentsize--;
+
+        }
+        public double getLoadFactor()
+        {
+            double loadfactor = Convert.ToDouble(currentsize) / Convert.ToDouble(size);
+            loadfactor = loadfactor * 100;
+            return loadfactor;
+        }
+    }
+}
